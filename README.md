@@ -1,8 +1,8 @@
-# btc-trck 🚀₿
+# btc-trck - A simple BTC Price Tracking Tool - ₿
 
 **Bitcoin price tracker with terminal charts - Because checking prices every 5 minutes is totally normal.**
 
-Track Bitcoin prices and 30-day charts right in your terminal. Multiple currencies, multiple APIs, color-coded charts. No GUI needed - just pure terminal Bitcoin addiction.
+Track BTC prices and 30-day charts right in your terminal. Multiple currencies, multiple APIs, color-coded charts. No GUI needed!
 
 ## Features
 
@@ -17,12 +17,12 @@ Track Bitcoin prices and 30-day charts right in your terminal. Multiple currenci
 
 ### Quick Install
 ```bash
-curl -fsSL https://raw.githubusercontent.com/yourusername/btc-trck/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/LizardKing00/btc-trck/main/install.sh | bash
 ```
 
 ### Manual Install
 ```bash
-git clone https://github.com/yourusername/btc-trck.git
+git clone https://github.com/LizardKing00/btc-trck/.git
 cd btc-trck
 bash install.sh
 ```
@@ -103,7 +103,7 @@ brew install curl jq      # macOS
 
 ## License
 
-MIT License - Track responsibly.
+Unlicence
 
 ---
 
