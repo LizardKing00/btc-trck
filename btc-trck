@@ -441,8 +441,39 @@ display_current_price() {
     local currency_symbol
     currency_symbol=$(get_currency_symbol)
     
+    # Get 30-day average for color comparison
+    local avg_price=""
+    local price_color="$GREEN"  # Default to green
+    
+    # Try to get historical data for average calculation
+    if command -v awk &> /dev/null; then
+        local historical_prices
+        historical_prices=$(get_historical_data 2>/dev/null || echo "")
+        
+        if [[ -n "$historical_prices" ]]; then
+            avg_price=$(echo "$historical_prices" | awk 'BEGIN{sum=0; count=0} {sum+=$1; count++} END{if(count>0) printf "%.2f", sum/count; else print ""}')
+            
+            # Compare current price to average and set color
+            if [[ -n "$avg_price" ]] && (( $(awk "BEGIN {print ($current_price < $avg_price)}") )); then
+                price_color="$RED"
+            fi
+        fi
+    fi
+    
     echo -e "\n${BLUE}Current Bitcoin Price${NC}"
-    echo -e "${GREEN}${currency_symbol}${current_price}${NC}"
+    echo -e "${price_color}${currency_symbol}${current_price}${NC}"
+    
+    # Show comparison to 30-day average if available
+    if [[ -n "$avg_price" ]]; then
+        local change_percent
+        change_percent=$(awk "BEGIN {printf \"%.1f\", (($current_price - $avg_price) / $avg_price) * 100}")
+        if (( $(awk "BEGIN {print ($current_price >= $avg_price)}") )); then
+            echo -e "${GREEN}▲ ${change_percent}%${NC} vs 30-day avg (${currency_symbol}${avg_price})"
+        else
+            echo -e "${RED}▼ ${change_percent}%${NC} vs 30-day avg (${currency_symbol}${avg_price})"
+        fi
+    fi
+    
     echo -e "${YELLOW}Data from ${source}${NC}\n"
 }
 
